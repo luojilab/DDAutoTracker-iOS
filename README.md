@@ -1,9 +1,5 @@
 # DDAutoTracker
 
-[![CI Status](http://img.shields.io/travis/yusipeng/DDAutoTracker.svg?style=flat)](https://travis-ci.org/yusipeng/DDAutoTracker)
-[![Version](https://img.shields.io/cocoapods/v/DDAutoTracker.svg?style=flat)](http://cocoapods.org/pods/DDAutoTracker)
-[![License](https://img.shields.io/cocoapods/l/DDAutoTracker.svg?style=flat)](http://cocoapods.org/pods/DDAutoTracker)
-[![Platform](https://img.shields.io/cocoapods/p/DDAutoTracker.svg?style=flat)](http://cocoapods.org/pods/DDAutoTracker)
 
 ## 埋点的重要性
 
