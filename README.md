@@ -34,7 +34,7 @@ method swizzling是发生在运行时的，主要用于在运行时将两个meth
 ![method_swizzling_2.png](http://upload-images.jianshu.io/upload_images/2137852-96ceeb5f81db7fe7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 例：
-```
+```objective-c
 #import <UIKit/UIKit.h>
 
 @interface UIViewController (DDTracker)
@@ -42,25 +42,25 @@ method swizzling是发生在运行时的，主要用于在运行时将两个meth
 @end
 ```
 
-```
+```objective-c
 #import "UIViewController+DDTracker.h"
 #import <objc/runtime.h>
 
 @implementation UIViewController (DDTracker)
 
 + (void)load {
-Method originalSelector = class_getClassMethod(self, @selector(viewWillAppear:));
-Method swizzledSelector = class_getClassMethod(self, @selector(swiz_viewWillAppear:));
-method_exchangeImplementations(originalSelector, swizzledSelector);
+    Method originalSelector = class_getClassMethod(self, @selector(viewWillAppear:));
+    Method swizzledSelector = class_getClassMethod(self, @selector(swiz_viewWillAppear:));
+    method_exchangeImplementations(originalSelector, swizzledSelector);
 }
 
 - (void)swiz_viewWillAppear:(BOOL)animated
 {
-//在这里填写需要插入的代码
-[self sendTrackerData];
+    //在这里填写需要插入的代码
+    [self sendTrackerData];
 
-//执行原来的代码，不影响代码逻辑
-[self swiz_viewWillAppear:animated];
+    //执行原来的代码，不影响代码逻辑
+    [self swiz_viewWillAppear:animated];
 }
 
 - (void)sendTrackerData {
@@ -98,7 +98,7 @@ iOS中UIView添加UITapGestureRecognizer手势实现点击效果，通过UITapGe
 
 ## 配置信息下拉
 
-```
+```objective-c
 [
     {
     "DD_TRACKER_EVENTID_KEY":"DDButtonViewController&&trackerButtonClick:"
@@ -121,33 +121,34 @@ iOS中UIView添加UITapGestureRecognizer手势实现点击效果，通过UITapGe
 
 ## 使用方法
 
-```
+```objective-c
 #import "DDAppDelegate.h"
 
 @implementation DDAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-// Override point for customization after application launch.
+    // Override point for customization after application launch.
 
-//开启打点
-[[DDAutoTrackerManager sharedInstance] startWithCompletionBlockWithSuccess:^(NSDictionary *trackerDictionary) {
-//成功打点回调
-} debug:^(NSDictionary *trackerDictionary) {
-//调试模式回调
-}];
-//开启调试模式
-[DDAutoTrackerManager sharedInstance].isDebug = YES;
-//读取本地配置文件
-NSString * filePath = [[NSBundle mainBundle] pathForResource:@"tracker" ofType:@"json"];
-NSData * jsonData = [NSData dataWithContentsOfFile:filePath];
-if (jsonData) {
-NSError *error;
-NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error: &error];
-if (nil == error &&
-jsonArray) {
-[DDAutoTrackerManager sharedInstance].configArray = jsonArray;
-}
+    //开启打点
+    [[DDAutoTrackerManager sharedInstance] startWithCompletionBlockWithSuccess:^(NSDictionary *trackerDictionary) {
+    //成功打点回调
+    } debug:^(NSDictionary *trackerDictionary) {
+    //调试模式回调
+    }];
+    //开启调试模式
+    [DDAutoTrackerManager sharedInstance].isDebug = YES;
+    //读取本地配置文件
+    NSString * filePath = [[NSBundle mainBundle] pathForResource:@"tracker" ofType:@"json"];
+    NSData * jsonData = [NSData dataWithContentsOfFile:filePath];
+    if (jsonData) {
+        NSError *error;
+        NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error: &error];
+        if (nil == error &&
+        jsonArray) {
+            [DDAutoTrackerManager sharedInstance].configArray = jsonArray;
+        }
+    }
 }
 
 return YES;
@@ -161,7 +162,8 @@ return YES;
 #### 数据绑定
 
 大多数情况下，需要绑定一些控件信息。建议使用服务端返回的数据为准。调用“configInfoData:”方法配置需要上报的数据，例：
-```
+
+```objective-c
 #import "DDViewController.h"
 
 @interface DDViewController ()
@@ -171,11 +173,11 @@ return YES;
 @implementation DDViewController
 
 - (void)viewDidLoad {
-[super viewDidLoad];
-// Do any additional setup after loading the view.
-//配置打点info信息
-[self configInfoData:@{@"id":@"your id",
-@"type":@"your type"}];
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    //配置打点info信息
+    [self configInfoData:@{@"id":@"your id",
+    @"type":@"your type"}];
 }
 
 @end
