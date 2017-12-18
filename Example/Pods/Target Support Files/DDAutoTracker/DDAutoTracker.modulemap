@@ -1,0 +1,6 @@
+framework module DDAutoTracker {
+  umbrella header "DDAutoTracker-umbrella.h"
+
+  export *
+  module * { export * }
+}
