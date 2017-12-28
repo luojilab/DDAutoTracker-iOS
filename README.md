@@ -49,8 +49,8 @@ method swizzling是发生在运行时的，主要用于在运行时将两个meth
 @implementation UIViewController (DDTracker)
 
 + (void)load {
-    Method originalSelector = class_getClassMethod(self, @selector(viewWillAppear:));
-    Method swizzledSelector = class_getClassMethod(self, @selector(swiz_viewWillAppear:));
+    Method originalSelector = class_getInstanceMethod(self, @selector(viewWillAppear:));
+    Method swizzledSelector = class_getInstanceMethod(self, @selector(swiz_viewWillAppear:));
     method_exchangeImplementations(originalSelector, swizzledSelector);
 }
 
